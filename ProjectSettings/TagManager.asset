@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Knife
+  - Evil
   layers:
   - Default
   - TransparentFX
@@ -12,9 +12,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Blue
+  - Red
+  - Wall
   - 
   - 
   - 
