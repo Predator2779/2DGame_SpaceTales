@@ -6,6 +6,8 @@ public class PlayerControl : MonoBehaviour
 
     private ManagerScript _gameManager;
     private Rigidbody2D _rBody;
+    private Transform _aim;
+    private Transform _gun;
 
     /// <summary>
     /// Start.
@@ -13,6 +15,8 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<ManagerScript>();
+        _gun = transform.Find("BlasterGun").transform;
+        _aim = GameObject.Find("Aim").gameObject.transform;
         _rBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -21,8 +25,9 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        CameraControl();
-        MouseControl();
+        CameraPosition();
+        LookControl(transform, _aim);
+        LookControl(_gun, _aim);
         Shooting();
     }
 
@@ -37,21 +42,23 @@ public class PlayerControl : MonoBehaviour
     /// <summary>
     /// Слежение камеры за игроком.
     /// </summary>
-    private void CameraControl()
+    private void CameraPosition()
     {
         var position = new Vector2(transform.position.x, transform.position.y);
-        GameObject.Find("PlayerCamera").transform.position = position;
+        GameObject.Find("PlayerCamera").transform.position = position;//
     }
 
     /// <summary>
-    /// Слежение игрока за мышкой.
+    /// Поворачивает объект follower в сторону target.
     /// </summary>
-    private void MouseControl()
+    /// <param name="follower">Следящий объект</param>
+    /// <param name="target">Объект слежения</param>
+    private void LookControl(Transform follower, Transform target)
     {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); //положение мыши из экранных в мировые координаты
-        var angle = Vector2.Angle(Vector2.right, mousePosition - transform.position); //угол между вектором от объекта к мыше и осью х
+        //угол между вектором от объекта follower к объекту target.
+        var angle = Vector2.Angle(Vector2.right, target.position - follower.position);
 
-        transform.eulerAngles = new Vector3(0f, 0f, transform.position.y < mousePosition.y ? (angle - 90.0f) : (-angle - 90.0f));
+        follower.eulerAngles = new Vector3(0f, 0f, transform.position.y < target.position.y ? (angle - 90.0f) : (-angle - 90.0f));
     }
 
     /// <summary>
@@ -59,9 +66,7 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     private void Shooting()
     {
-        var gun = gameObject.transform.Find("BlasterGun").GetComponent<AttackScript>();
-
-        if (Input.GetMouseButton(0)) gun._fire = true;
+        if (Input.GetMouseButton(0)) _gun.GetComponent<AttackScript>()._fire = true;
     }
 
     /// <summary>

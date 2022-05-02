@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7560488805674249278}
   m_Layer: 6
   m_Name: Blast
-  m_TagString: Untagged
+  m_TagString: Blast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346391b33b775ce4a95d10d374d41e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _koefDamage: 1

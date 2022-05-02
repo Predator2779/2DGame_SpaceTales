@@ -14,17 +14,18 @@ public class ManagerScript : MonoBehaviour
     public float _runSpeedX;                                    /// Коэф. ускорения.
     public float _walkSpeed = 30.0f;                            /// Скорость ходьбы игрока.
 
-    /// Переменные GameManager.
-    public bool _playing = false;
-    public bool _pause = false;
+    [Header("GameManager")]                                     /// Играет.
+    public bool _playing = false;                               /// Пауза.
+    public bool _paused = false;
 
     [SerializeField] private GameObject _mainCamera;
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _pausePanel;
-    [SerializeField] private GameObject _namePanel;
+    [SerializeField] private GameObject _inputPanel;
     [SerializeField] private GameObject _game;
     [SerializeField] private GameObject _cloneGame;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _aim;
     [SerializeField] private Text _name;
     [SerializeField] private Text _scoreBoardText;
 
@@ -43,10 +44,39 @@ public class ManagerScript : MonoBehaviour
     /// </summary>
     private void ManageGame()
     {
-        MonitorScore();
-        EscapeButton();
+        Playing();
         Pause();
-        Lose();
+        EscapeButton();
+    }
+
+    /// <summary>
+    /// Процессы во время игры.
+    /// </summary>
+    private void Playing()
+    {
+        if (_playing && !_paused)
+        {
+            MonitorScore();
+            AimFind();
+            AimEnable();
+            LoseCondition();
+        }
+    }
+
+    /// <summary>
+    /// Пауза.
+    /// </summary>
+    private void Pause()
+    {
+        if (_playing && _paused)
+        {
+            Time.timeScale = 0;
+            _mainCamera.SetActive(true);
+            _pausePanel.SetActive(true);
+            _cloneGame.SetActive(false);
+
+            AimDisable();
+        }
     }
 
     /// <summary>
@@ -55,7 +85,7 @@ public class ManagerScript : MonoBehaviour
     private void EscapeButton()
     {
         if (Input.GetKey(KeyCode.Escape) && _playing)
-            _pause = true;
+            _paused = true;
     }
 
     /// <summary>
@@ -63,11 +93,71 @@ public class ManagerScript : MonoBehaviour
     /// </summary>
     private void MonitorScore()
     {
-        if (_playing && !_pause)
+        _scoreText = GameObject.Find("Score").GetComponent<Text>();
+        _scoreText.text = $"XP: {_score}";
+    }
+
+    /// <summary>
+    /// Включение прицела.
+    /// </summary>
+    private void AimEnable()
+    {
+        _aim.SetActive(true);
+        CursorVisible(false);
+    }
+
+    /// <summary>
+    /// Выключение прицела.
+    /// </summary>
+    private void AimDisable()
+    {
+        _aim.SetActive(false);
+        CursorVisible(true);
+    }
+
+    /// <summary>
+    /// Поиск прицела на сцене.
+    /// </summary>
+    private void AimFind()
+    {
+        if (_aim == null)
+            _aim = GameObject.Find("Aim").gameObject;
+    }
+
+    /// <summary>
+    /// Включает/отключает курсор.
+    /// </summary>
+    /// <param name="visible">Видимость</param>
+    private void CursorVisible(bool visible) => Cursor.visible = visible;
+
+    /// <summary>
+    /// Условия поражения.
+    /// </summary>
+    private void LoseCondition()
+    {
+        _player = GameObject.Find("Player").gameObject;
+
+        if (_player != null && _player.GetComponent<HealthScript>()._death)
         {
-            _scoreText = GameObject.Find("Score").GetComponent<Text>();
-            _scoreText.text = $"XP: {_score}";
+            Destroy(_cloneGame);
+            AimDisable();
+
+            _mainCamera.SetActive(true);
+            _inputPanel.SetActive(true);
+            _playing = false;
         }
+    }
+
+    /// <summary>
+    /// Попасть на доску почета.
+    /// </summary>
+    public void InputName()
+    {
+        _scoreBoardText.text += $"{_name.text}: {_score}\n";
+        _score = 0;
+
+        _inputPanel.SetActive(false);
+        _menuPanel.SetActive(true);
     }
 
     /// <summary>
@@ -88,27 +178,16 @@ public class ManagerScript : MonoBehaviour
     public void ToMenu()
     {
         _playing = false;
-        _pause = false;
+        _paused = false;
 
         Destroy(_cloneGame);
 
         _pausePanel.SetActive(false);
         _menuPanel.SetActive(true);
         _mainCamera.SetActive(true);
-    }
+        _cloneGame.SetActive(true);
 
-    /// <summary>
-    /// Пауза.
-    /// </summary>
-    private void Pause()
-    {
-        if (_playing && _pause)
-        {
-            Time.timeScale = 0;
-            _mainCamera.SetActive(true);
-            _pausePanel.SetActive(true);
-            _cloneGame.SetActive(false);
-        }
+        Time.timeScale = 1;
     }
 
     /// <summary>
@@ -116,44 +195,12 @@ public class ManagerScript : MonoBehaviour
     /// </summary>
     public void Continue()
     {
-        _pause = false;
+        _paused = false;
 
         _mainCamera.SetActive(false);
         _pausePanel.SetActive(false);
         _cloneGame.SetActive(true);
         Time.timeScale = 1;
-    }
-
-    /// <summary>
-    /// Условия поражения.
-    /// </summary>
-    private void Lose()
-    {
-        if (_playing && !_pause)
-        {
-            _player = GameObject.Find("Player").gameObject;
-
-            if (_player != null)
-                if (_player.GetComponent<HealthScript>()._death)
-                {
-                    Destroy(_cloneGame);
-                    _mainCamera.SetActive(true);
-                    _namePanel.SetActive(true);
-                    _playing = false;
-                }
-        }
-    }
-
-    /// <summary>
-    /// Попасть на доску почета.
-    /// </summary>
-    public void InputName()
-    {
-        _scoreBoardText.text += $"{_name.text}: {_score}\n";
-        _score = 0;
-
-        _namePanel.SetActive(false);
-        _menuPanel.SetActive(true);
     }
 
     /// <summary>

@@ -9,23 +9,26 @@ public class BlastBehaviour : MonoBehaviour
     /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var randValue = Random.Range(0.25f, 1.0f);
-
-        HealthScript health;
-
-        if (health = collision.gameObject.GetComponent<HealthScript>())
+        if (collision.gameObject.tag != transform.gameObject.tag)
         {
-            var damage = randValue / health._koefDefense * _koefDamage;
-            health._points -= damage;
+            var randValue = Random.Range(0.25f, 1.0f);
+
+            HealthScript health;
+
+            if (health = collision.gameObject.GetComponent<HealthScript>())
+            {
+                var damage = randValue / health._koefDefense * _koefDamage;
+                health._points -= damage;
+            }
+
+            ShieldBehaviour shield;
+
+            if (shield = collision.gameObject.GetComponent<ShieldBehaviour>())
+            {
+                shield._hit = true;
+            }
+
+            Destroy(this.gameObject);
         }
-
-        ShieldBehaviour shield;
-
-        if (shield = collision.gameObject.GetComponent<ShieldBehaviour>())
-        {
-            shield._hit = true;
-        }
-
-        Destroy(this.gameObject);
     }
 }

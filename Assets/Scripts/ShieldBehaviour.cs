@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShieldBehaviour : HealthScript
 {
@@ -36,7 +35,7 @@ public class ShieldBehaviour : HealthScript
 
         if (_hit)
         {
-            color.a = 0.235f;
+            color.a = 0.375f;
 
             _hit = false;
         }
