@@ -4,9 +4,10 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float _realSpeed = 0;
 
-    private ManagerScript _gameManager;
+    private ConditionalManager _conditionalManager;
     private Rigidbody2D _rBody;
-    private Transform _aim;
+    [SerializeField] private Transform _aim;
+    [SerializeField] private Transform _playerCamera;
     private Transform _gun;
 
     /// <summary>
@@ -14,9 +15,10 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<ManagerScript>();
+        _conditionalManager = GameObject.Find("ConditionalManager").GetComponent<ConditionalManager>();
         _gun = transform.Find("BlasterGun").transform;
         _aim = GameObject.Find("Aim").gameObject.transform;
+        _playerCamera = GameObject.Find("PlayerCamera").gameObject.transform;
         _rBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -45,7 +47,7 @@ public class PlayerControl : MonoBehaviour
     private void CameraPosition()
     {
         var position = new Vector2(transform.position.x, transform.position.y);
-        GameObject.Find("PlayerCamera").transform.position = position;//
+        _playerCamera.transform.position = position;//
     }
 
     /// <summary>
@@ -76,36 +78,36 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            _realSpeed = _gameManager._walkSpeed;
+            _realSpeed = _conditionalManager._walkSpeed;
             _rBody.AddForce(Vector2.up * _realSpeed * 1000.0f);
         }
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) _realSpeed = 0;
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            _realSpeed = _gameManager._walkSpeed;
+            _realSpeed = _conditionalManager._walkSpeed;
             _rBody.AddForce(-Vector2.up * _realSpeed * 1000.0f);
         }
         if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) _realSpeed = 0;
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            _realSpeed = _gameManager._walkSpeed;
+            _realSpeed = _conditionalManager._walkSpeed;
             _rBody.AddForce(-Vector2.right * _realSpeed * 1000.0f);
         }
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) _realSpeed = 0;
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            _realSpeed = _gameManager._walkSpeed;
+            _realSpeed = _conditionalManager._walkSpeed;
             _rBody.AddForce(Vector2.right * _realSpeed * 1000.0f);
         }
         if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) _realSpeed = 0;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _rBody.drag = _gameManager._drag * (1 / _gameManager._runSpeedX);
+            _rBody.drag = _conditionalManager._drag * (1 / _conditionalManager._runSpeedX);
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift)) _rBody.drag = _gameManager._drag;
+        if (Input.GetKeyUp(KeyCode.LeftShift)) _rBody.drag = _conditionalManager._drag;
     }
 }

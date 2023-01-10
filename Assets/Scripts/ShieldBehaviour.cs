@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ShieldBehaviour : HealthScript
 {
@@ -21,9 +22,9 @@ public class ShieldBehaviour : HealthScript
     /// </summary>
     private void PositionShield()
     {
-        var carrier = gameObject.transform.parent.gameObject;
+        var container = gameObject.transform.parent.gameObject;
 
-        transform.position = carrier.transform.position;
+        transform.position = container.transform.position;
     }
 
     /// <summary>

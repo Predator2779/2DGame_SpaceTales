@@ -6,6 +6,7 @@ public class EnemyBehaviour : MonoBehaviour
     public Transform _target;
     public bool _patrol = false;
 
+    [SerializeField] private ConditionalManager _conditionalManager;
     [SerializeField] private float _walkSpeed = 1.0f;
     [SerializeField] private float _distanceToPlayer = 30.0f;
     [SerializeField] private float _timePatrol = 5.0f;
@@ -14,6 +15,14 @@ public class EnemyBehaviour : MonoBehaviour
     private bool _randomVector = true;
     private bool _moving = false;
     private float _speed = 0;
+
+    private void Start()
+    {
+        if (_conditionalManager == null)
+             _conditionalManager = GameObject.Find("ConditionalManager").GetComponent<ConditionalManager>();
+
+
+    }
 
     /// <summary>
     /// Update.
@@ -28,6 +37,9 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     private void EnemyLogic()
     {
+        _walkSpeed *= Time.timeScale;                 /// Пока что.
+        _speed *= Time.timeScale;                      /// Пока что.
+
         if (_target != null)                     /// Пока что.
         {
             PursuitPlayer(_target);
@@ -38,7 +50,7 @@ public class EnemyBehaviour : MonoBehaviour
         var health = gameObject.GetComponent<HealthScript>();
         var shieldHealth = gameObject.transform.Find("Shield").GetComponent<HealthScript>();
 
-        if (health._points != 100.0f || shieldHealth._points != 100.0f)            /// Пока что.
+        if (health._points != 100.0f || shieldHealth._points != 100.0f)  /// Пока что.
         {
             _target = GameObject.Find("Player").transform;
 
@@ -190,6 +202,6 @@ public class EnemyBehaviour : MonoBehaviour
     {
         var score = Random.Range(65, 100) * _level;
 
-        GameObject.Find("GameManager").GetComponent<ManagerScript>()._score += score;
+        _conditionalManager._score += score;
     }
 }

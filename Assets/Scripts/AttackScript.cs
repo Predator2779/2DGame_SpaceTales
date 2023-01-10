@@ -4,7 +4,7 @@ public class AttackScript : MonoBehaviour
 {
     public bool _fire = false;                                            /// Выстрелить.
 
-    [SerializeField] private ManagerScript _gameManager;                  /// GameManager.
+    [SerializeField] private ConditionalManager _gameManager;                  /// GameManager.
     [SerializeField] private GameObject _typeGun;                         /// Тип оружия.
     [SerializeField] private GameObject _cloneBullet;                     /// Пуля.
     [SerializeField] private float _forceShot = 250.0f;                   /// Сила выстрела.
@@ -20,7 +20,7 @@ public class AttackScript : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<ManagerScript>();
+        _gameManager = GameObject.Find("ConditionalManager").GetComponent<ConditionalManager>();
     }
 
     /// <summary>
