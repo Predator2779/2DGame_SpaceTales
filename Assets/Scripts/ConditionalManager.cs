@@ -69,8 +69,6 @@ public class ConditionalManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        print(Time.timeScale);
-
         if (_playing)
         {
             GameConditions();

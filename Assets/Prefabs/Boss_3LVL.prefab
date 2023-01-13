@@ -407,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   _patrol: 0
+  _conditionalManager: {fileID: 0}
   _walkSpeed: 0.05
   _distanceToPlayer: 60
   _timePatrol: 3

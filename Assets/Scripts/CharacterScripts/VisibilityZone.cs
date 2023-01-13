@@ -7,7 +7,6 @@ public class VisibilityZone : MonoBehaviour
         if (obj.gameObject.tag == "Player")
         {
             transform.parent.GetComponent<EnemyBehaviour>()._target = obj.transform;
-            transform.parent.GetComponent<EnemyBehaviour>()._patrol = false;
         }
     }
 }

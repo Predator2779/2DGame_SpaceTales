@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &572879830081420142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 439107356832828574, guid: 903f96d75d3cfb840ba138214275e6b4, type: 3}
+  m_PrefabInstance: {fileID: 5670744815321889214}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5236153157250069795}
+  m_Layer: 0
+  m_Name: 'Map (Missing Prefab with guid: 903f96d75d3cfb840ba138214275e6b4)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5236153157250069795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 439107356832828573, guid: 903f96d75d3cfb840ba138214275e6b4, type: 3}
+  m_PrefabInstance: {fileID: 5670744815321889214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572879830081420142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5236153155730901942}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5236153155730901943
 GameObject:
   m_ObjectHideFlags: 0
@@ -26,6 +57,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5236153157250069795}
   - {fileID: 5236153157078862503}
@@ -1140,6 +1172,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5429574376872102169, guid: 5173dd4db3e73504eb93f902f21fe41a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5429574376872102169, guid: 5173dd4db3e73504eb93f902f21fe41a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5173dd4db3e73504eb93f902f21fe41a, type: 3}
 --- !u!4 &284629119298428394 stripped
@@ -2030,8 +2070,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 903f96d75d3cfb840ba138214275e6b4, type: 3}
---- !u!4 &5236153157250069795 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 439107356832828573, guid: 903f96d75d3cfb840ba138214275e6b4, type: 3}
-  m_PrefabInstance: {fileID: 5670744815321889214}
-  m_PrefabAsset: {fileID: 0}
